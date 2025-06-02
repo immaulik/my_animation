@@ -1,0 +1,35 @@
+name: Flutter Development Build
+
+on:
+  push:
+    branches:
+      - dev_tred
+
+jobs:
+  dev_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Pre-install Android SDK tools to speed up Gradle
+        run: |
+          yes | sdkmanager --install \
+            "platforms;android-33" \
+            "platforms;android-31" \
+            "ndk;27.0.12077973" \
+            "cmake;3.22.1"
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build APK (Development)
+        run: flutter build apk
