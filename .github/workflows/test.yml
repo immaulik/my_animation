@@ -3,7 +3,7 @@ name: Flutter Development Build
 on:
   push:
     branches:
-      - dev_tred
+      - master
 
 jobs:
   dev_build:
